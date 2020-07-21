@@ -1,0 +1,67 @@
+{{ form_start(recipeForm) }}
+	<div class="row">
+		<div class="form-group col-md-6">
+			{{form_row(recipeForm.name_recipe)}}
+		</div>
+		<div class="form-group col-md-4">
+			{{form_row(recipeForm.portion)}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-6">
+			{{form_row(recipeForm.id_category)}}
+		</div>
+		<div class="form-group col-md-4">
+			{{form_row(recipeForm.time)}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-6">
+			{{form_row(recipeForm.photoFile)}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-6">
+			{% if recipeForm.vars.data.photo|default %}
+                <img src="{{asset(recipeForm.vars.data.getImagePath()) }}">
+            {% endif %}
+		</div>
+	</div>
+	
+	<div class="form-group" data-prototype="{{ form_widget(recipeForm.compositions.vars.prototype)|e('html_attr') }}">
+		<h4>ИНГРЕДИЕНТЫ</h4>
+		{% for composition in recipeForm.compositions %}
+			<div class="row">
+				<div class="col-md-4">
+					{{ form_row(composition.id_ingredient) }}
+				</div>
+				<div class="col-md-2">
+					{{ form_row(composition.amount) }}
+				</div>
+				<div class="col-md-4">
+					{{ form_row(composition.id_dimension) }}
+				</div>
+			</div>
+		{% endfor %}
+		<button type="button" class="add_tag_link">Add a tag</button>
+	</div>
+
+        
+            
+			
+			
+        
+	<div class="form-group" data-prototype="{{ form_widget(recipeForm.phases.vars.prototype)|e('html_attr') }}">
+		<h4>ИНСТРУКЦИЯ ПРИГОТОВЛЕНИЯ</h4>
+    
+        {% for phase in recipeForm.phases %}
+            {{ form_row(phase.number) }}
+			{{ form_row(phase.content) }}
+			{{ form_row(phase.photo) }}
+        {% endfor %}
+    </div>
+    <button class="btn btn-success float-right">{{ button_label|default('Добавить') }}</button>
+{{ form_end(recipeForm) }}
+
+					
+

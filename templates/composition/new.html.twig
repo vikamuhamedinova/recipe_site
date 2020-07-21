@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block title %}New Composition{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-9">
+
+			
+    <h1>Create new Composition</h1>
+
+    {{ include('composition/_form.html.twig') }}
+
+    <a href="{{ path('composition_index') }}">back to list</a>
+	
+	
+			</div>
+		</div>
+	</div>
+</main>	
+{% endblock %}
+

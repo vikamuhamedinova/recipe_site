@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Вкусные рецепты</title>
+		<!-- Icons -->
+		<link rel="icon" href="{{ asset('cake.ico') }}"/>
+
+
+        {% block stylesheets %}
+			<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+			<link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+		{% endblock %}
+    </head>
+    <body>
+		<!-- Navigation bar HERE -->
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+			<a class="navbar-brand" href="{{ path('recipe_index') }}">Вкусные рецепты</a>
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="{{ path('recipe_index') }}">Главная<span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('ingredient_index') }}">Ингредиенты</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('category_index') }}">Категории</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('dimension_index') }}">Единицы меры</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('recipe_new') }}">Добавить рецепт</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="text" name="q"
+								value="{{ app.request.query.get('q') }}" placeholder="Поиск" aria-label="Поиск">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+				</form>
+				<ul class="navbar-nav ml-auto">
+					{% if is_granted('ROLE_USER') %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_logout') }}">Выход<span class="sr-only">(current)</span></a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_login') }}">Вход<span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+                            <a style="color: #fff;" class="nav-link" href="{{ path('app_register') }}">Регистрация</a>
+                        </li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+		
+		{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+		
+		
+		
+        {% block body %}{% endblock %}
+		
+		{% block javascripts %}
+			<!-- Bootstrap core JavaScript
+			================================================== -->
+			<!-- Placed at the end of the document so the pages load faster -->
+			{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			<script>window.jQuery || document.write('<script src="{{ asset('assets/js/vendor/jquery-slim.min.js') }}"><\/script>')</script>
+			<script src="{{ asset('assets/js/vendor/popper.min.js') }}"></script>
+			<script src="{{ asset('dist/js/bootstrap.min.js') }}"></script>
+			<script>
+                $('.custom-file-input').on('change', function(event) {
+                    var inputFile = event.currentTarget;
+                    $(inputFile).parent()
+                        .find('.custom-file-label')
+                        .html(inputFile.files[0].name);
+                });
+            </script>
+		{% endblock %}
+    </body>
+</html>

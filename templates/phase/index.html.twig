@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Phase index{% endblock %}
+
+{% block body %}
+    <h1>Phase index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Content</th>
+                <th>Photo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for phase in phases %}
+            <tr>
+                <td>{{ phase.number }}</td>
+                <td>{{ phase.content }}</td>
+                <td>{{ phase.photo }}</td>
+                <td>
+                    <a href="{{ path('phase_show', {'id': phase.id}) }}">show</a>
+                    <a href="{{ path('phase_edit', {'id': phase.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('phase_new') }}">Create new</a>
+{% endblock %}

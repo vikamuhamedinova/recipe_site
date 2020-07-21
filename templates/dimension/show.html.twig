@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dimension{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col">
+						<h1>Единица меры</h1>
+					</div>
+					{{ include('dimension/_delete_form.html.twig') }}
+				</div>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Название единицы меры</th>
+							<td>{{ dimension.nameDimension }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<a class="btn btn-outline-dark my-2" href="{{ path('dimension_index') }}" role="button">Вернуться к списку</a>
+				<a class="btn btn-success my-2 float-right" href="{{ path('dimension_edit', {'id': dimension.id}) }}" role="button">Редактировать</a>
+			</div>
+		</div>
+	</div>
+</main>	
+{% endblock %}

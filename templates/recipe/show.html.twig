@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recipe{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row justify-content-center">
+			<!-- Example row of columns -->
+			<div class="col-md-12 ">
+				<div class="row">
+					<div class="col-md-4">
+						<img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" 
+						alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" 
+						src="{{ asset(recipe.getImagePath()) }}" data-holder-rendered="true">
+					</div>
+				</div>
+				<h2>{{ recipe.nameRecipe }}</h2>
+				<div class="form-group">
+					<p> Автор: </p>
+				</div>
+				<div class="row">
+					<div class="col-md-1">
+						<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+							src="{{ asset('meat1.png') }}">
+					</div>
+					<div class="col-md-3">
+						<p>{{ recipe.portion }} порции </p>
+					</div>
+					<div class="col-md-1">
+						<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;"
+							src="{{ asset('preparation.png') }}">
+					</div>
+					<div class="col-md-6">
+						<p>Время: {{ recipe.time }} минут</p>
+					</div>
+				</div>
+				<form>
+					<h4>Ингредиенты</h4>
+					{% for composition in recipe.compositions %}
+						<div class="row">
+							<div class="col-md-6">
+								<p class="h6">{{ composition.getIdIngredient() }}</p>
+							</div>
+							<div class="col-md-2">
+								<p class="h6">{{ composition.amount }}</p>
+							</div>
+							<div class="col-md-4">
+								<p class="h6">{{ composition.getIdDimension() }}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</form>
+				<h3>Рецепт</h3>
+				<ol>
+					{% for phase in recipe.phases %}
+						<div class="row">
+							<div class="col-md-6">
+								<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{ phase.content }}</font></font></li>
+							</div>
+							<div class="col-md-4">
+								<img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" 
+									alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" 
+									src="{{ asset(phase.getImagePath)}}" data-holder-rendered="true">
+							</div>
+						</div>
+					{% endfor %}
+				</ol>
+				<div class="row">
+					<div class="col-md-2">
+						<a class="btn btn-secondary my-2" href="{{ path('recipe_edit', {'id': recipe.id}) }}" role="button">Редактировать</a>
+					</div>
+					<div class="col-md-2">
+						{{ include('recipe/_delete_form.html.twig') }}
+					</div>	
+				</div>			
+			</div>
+		</div>
+	</div> <!-- /container -->
+</main>	
+{% endblock %}

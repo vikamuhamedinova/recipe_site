@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Категории ({{ categories.getTotalItemCount }})</h1>
+				<table class="table">
+					<thead class="table-success">
+						<tr>
+							<th>Название</th>
+							<th>действия</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for category in categories %}
+						<tr>
+							<td>{{ category.nameCategory }}</td>
+							<td>
+								<a href="{{ path('category_show', {'id': category.id}) }}">
+									<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+										src="{{ asset('search.png') }}">
+								</a>
+								<a href="{{ path('category_edit', {'id': category.id}) }}">
+									<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+										src="{{ asset('document.png') }}">
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">no records found</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+				{{ knp_pagination_render(categories) }}
+				<a class="btn btn-success" href="{{ path('category_new') }}" role="button">Добавить</a>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

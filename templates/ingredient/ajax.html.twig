@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ingredient index{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>
+					<a id = "loadingredient" href = "#">Ингредиенты</a>
+				</h1>
+				
+				<table class="table">
+					<thead class="table-succиess">
+						<tr>
+							<th>Название</th>
+							<th>действия</th>
+						</tr>
+					</thead>
+					<tbody id="ingredient_tbody">
+					
+					</tbody>
+				</table>	
+				
+				
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+
+{% block javascripts %} 
+   {{ parent() }}
+   <script language = "javascript">  
+      $(document).ready(function(){   
+         $("#loadingredient").on("click", function(event){  
+            $.ajax({  
+               url:        '/ingredient/ajax',  
+               type:       'POST',   
+               dataType:   'json',  
+               async:      true,  
+               
+               success: function(data, status) {  
+                  var e = $('<tr><th>Name</th></tr>');  
+                  $('#ingredient_tbody').html('');  
+                  $('#ingredient_tbody').append(e);  
+                  
+                  for(i = 0; i < data.length; i++) {  
+                     ingredient = data[i];  
+                     var e = $('<tr><td id = "name"></td></tr>');
+                     
+                     $('#name', e).html(ingredient['name']);  
+                     $('#ingredient_tbody').append(e);  
+                  }  
+               },  
+               error : function(xhr, textStatus, errorThrown) {  
+                  alert('Ajax request failed.');  
+               }  
+            });  
+         });  
+      });  
+   </script> 
+{% endblock %}  
+
+
+$('.js-edit-button').click(function (e) {
+		var url = $(this).attr('href');
+		$.ajax({
+			type: "GET",
+			url: url,
+			async: true,
+			success: function (data) {
+				console.log('success2');
+				console.log(data);
+				$("#edit_form_body").html(data);
+				$('#editModal').modal('show');
+				$($('#edit_form_body').children()[0]).attr("action", url);
+				$($('#edit_form_body').children()[0]).submit(function (e) {
+					console.log('submitting');
+					e.preventDefault();
+					$.ajax({
+						type: "POST",
+						url: url,
+						data: $(this).serialize(),
+						async: true,
+						success: function (data) {
+							console.log('success edit');
+							$('#editModal').modal('hide');
+							var curid = (/^\/teammate\/(\d)+\/edit/.exec(url))[1];
+							console.log(curid);
+							$(document.getElementById('tr-' + curid)).html(data.resp);
+						}
+					});
+					return false;
+				});
+			}
+		});
+		return false;
+	});

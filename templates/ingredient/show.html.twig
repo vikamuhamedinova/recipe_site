@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ingredient{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col">
+						<h1>Ингредиент</h1>
+					</div>
+					{{ include('ingredient/_delete_form.html.twig') }}
+				</div>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Название ингредиента</th>
+							<td>{{ ingredient.nameIngredient }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<a class="btn btn-outline-dark my-2" href="{{ path('ingredient_index') }}" role="button">Вернуться к списку</a>
+				<a class="btn btn-success my-2 float-right" href="{{ path('ingredient_edit', {'id': ingredient.id}) }}" role="button">Редактировать</a>
+			</div>
+		</div>
+	</div>
+</main>	  
+{% endblock %}

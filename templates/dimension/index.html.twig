@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dimension index{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Еденицы меры ({{ dimensions.getTotalItemCount }})</h1>
+				<table class="table">
+					<thead class="table-success">
+						<tr>
+							<th>Название</th>
+							<th>действия</th>
+						</tr>
+					</thead>
+					<tbody id="dimensions_tbody">
+					{% for dimension in dimensions %}
+						<tr>
+							<td>{{ dimension.nameDimension }}</td>
+							<td>
+								<a href="{{ path('dimension_show', {'id': dimension.id}) }}">
+									<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+										src="{{ asset('search.png') }}">
+								</a>
+								<a href="{{ path('dimension_edit', {'id': dimension.id}) }}">
+									<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+										src="{{ asset('document.png') }}">
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">no records found</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+				{{ knp_pagination_render(dimensions) }}
+				
+				<div class="col-md-12 ">
+					<h1>Добавление новой единицы меры</h1>
+					<form method="POST" id="newDimensionForm" action="{{ path('dimension_new_ajax') }}">
+						{{ form_start(form) }}
+						{{ form_widget(form) }}
+						<button type="submit" id="submit_button" class="btn btn-success my-2 float-right">Сохранить</button>
+						{{ form_end(form) }}
+					</form>				
+				</div>
+				{#<a class="btn btn-success" href="{{ path('dimension_new') }}" role="button">Добавить</a>#}
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/ajax_dimension.js') }}"></script>
+{% endblock %}		

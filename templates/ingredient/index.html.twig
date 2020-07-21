@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ingredient index{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Ингредиенты</h1>
+				<table class="table">
+					<thead class="table-success">
+						<tr>
+							<th>Название</th>
+							<th>действия</th>
+						</tr>
+					</thead>
+					<tbody id="ingredient_tbody">
+					{% for ingredient in ingredients %}
+						<tr id="tr-{{ ingredient.id }}">
+							<td>{{ ingredient.nameIngredient }}</td>
+							<td>
+								<a href="{{ path('ingredient_show', {'id': ingredient.id}) }}">
+									<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+										src="{{ asset('search.png') }}">
+								</a>
+								<a href="{{ path('ingredient_edit', {'id': ingredient.id}) }}" class="js-edit-button">
+									<img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 25px; width: 25px;" 
+										src="{{ asset('document.png') }}">
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">no records found</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>	
+				<div class="row">
+					<div class="col-md-12">
+						<h1>Добавление нового ингредиента</h1>
+						<form method="POST" id="newIngredientForm" action="{{ path('ingredient_index') }}">
+							{{ form_start(form) }}
+							{{ form_widget(form) }}
+							<button type="submit" id="submit_button" class="btn btn-success my-2 float-right">Сохранить</button>
+							{{ form_end(form) }}
+						</form>				
+					</div>
+				</div>
+				<div class="row">
+					<div type="" id="edit_form" class="col-md-12"></div>
+				</div>
+				{#<a class="btn btn-success" href="{{ path('ingredient_new') }}" role="button">Добавить</a>#}
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/ajax_.js') }}"></script>
+{% endblock %}

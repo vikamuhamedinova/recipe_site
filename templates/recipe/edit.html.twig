@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% form_theme recipeForm 'bootstrap_4_layout.html.twig' %}
+{% macro printCompositioRow(composition) %}
+    	<div class="col-md-4">
+			{{ form_row(composition.id_ingredient) }}
+		</div>
+		<div class="col-md-2">
+			{{ form_row(composition.amount) }}
+		</div>
+		<div class="col-md-4">
+			{{ form_row(composition.id_dimension) }}
+		</div>
+{% endmacro %}
+{% import _self as formMacros %}
+{% block title %}Edit Recipe{% endblock %}
+
+{% block body %}
+<main role="main">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col">
+						<h1>Редактирование рецепта</h1>
+					</div>
+					{{ include('recipe/_delete_form.html.twig') }}	
+				</div>
+				{#{ include('recipe/_form.html.twig', {'button_label': 'Сохранить'}) }#}	
+				
+				
+				{{ form_start(recipeForm) }}
+					<div class="row">
+						<div class="form-group col-md-6">
+							{{form_row(recipeForm.name_recipe)}}
+						</div>
+						<div class="form-group col-md-4">
+							{{form_row(recipeForm.portion)}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							{{form_row(recipeForm.id_category)}}
+						</div>
+						<div class="form-group col-md-4">
+							{{form_row(recipeForm.time)}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							{{form_row(recipeForm.photoFile)}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							{% if recipeForm.vars.data.photo|default %}
+								<img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" 
+								alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" 
+								src="{{asset(recipeForm.vars.data.getImagePath()) }}" data-holder-rendered="true">
+							{% endif %}
+						</div>
+					</div>
+					<hr>
+					<h4>ИНГРЕДИЕНТЫ</h4>
+					<div class="form-group" id="composition_list" data-prototype="{{ formMacros.printCompositioRow(recipeForm.compositions.vars.prototype)|e('html_attr') }}">
+						{% for composition in recipeForm.compositions %}
+							<div class="row composition" >
+							{{ formMacros.printCompositioRow(composition) }}
+							</div>
+						{% endfor %}
+					</div>
+
+					<h4>ИНСТРУКЦИЯ ПРИГОТОВЛЕНИЯ</h4>
+					<div class="form-group" id="phase_list" data-prototype="{{ form_widget(recipeForm.phases.vars.prototype)|e('html_attr') }}">
+						{% for phase in recipeForm.phases %}
+							<div class="row phase">
+								<div class="col-md-12">
+									{{ form_row(phase.number) }}
+								</div>
+								<div class="col-md-12">
+									{{ form_row(phase.content) }}
+								</div>
+								<div class="col-md-12">
+									{{ form_row(phase.photoPhaseFile) }}
+								</div>
+							</div>
+						<hr>
+						{% endfor %}
+					</div>
+					<button class="btn btn-success float-right">{{ button_label|default('Сохранить') }}</button>
+				{{ form_end(recipeForm) }}
+		
+				<a class="btn btn-outline-dark" href="{{ path('recipe_index') }}" role="button">Вернуться к списку</a>
+			
+			</div>
+		</div>
+	</div>
+</main>	
+    
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/addPhaseForm.js') }}"></script>
+	<script src="{{ asset('js/addCompositionForm.js') }}"></script>
+{% endblock %}
