@@ -1,2 +1,2 @@
-# recipe site
+# Site of recipes
 
